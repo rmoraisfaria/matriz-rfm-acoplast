@@ -28,6 +28,31 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# --- AUTENTICAÇÃO ---
+APP_PASSWORD = "Acoplast123"
+
+if 'authenticated' not in st.session_state:
+    st.session_state.authenticated = False
+
+if not st.session_state.authenticated:
+    col_l, col_c, col_r = st.columns([1, 2, 1])
+    with col_c:
+        st.markdown("""
+        <div style="text-align: center; padding: 60px 0 30px 0;">
+            <h1 style="font-size: 42px; margin-bottom: 5px;">📊 Acoplast</h1>
+            <p style="font-size: 18px; opacity: 0.7;">Gestão RFM — Dashboard Comercial</p>
+        </div>
+        """, unsafe_allow_html=True)
+        senha = st.text_input("🔒 Digite a senha de acesso:", type="password", placeholder="Senha")
+        if st.button("Entrar", use_container_width=True, type="primary"):
+            if senha == APP_PASSWORD:
+                st.session_state.authenticated = True
+                st.rerun()
+            else:
+                st.error("Senha incorreta. Tente novamente.")
+        st.markdown("<p style='text-align:center; opacity:0.4; font-size:12px; margin-top:40px;'>© Acoplast — Acesso restrito</p>", unsafe_allow_html=True)
+    st.stop()
+
 # --- CACHE E CARREGAMENTO ---
 @st.cache_data(show_spinner="Carregando dados...")
 def load_and_prep_data():
